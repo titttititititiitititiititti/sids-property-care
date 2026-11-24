@@ -111,6 +111,8 @@ if (form) {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(form));
     delete data.photos;
+    const extra = [...form.querySelectorAll('[data-extra]')].map(f => { const n = f.dataset.name, v = data[n]; delete data[n]; return v ? `${f.dataset.extra}: ${v}` : ''; }).filter(Boolean);
+    if (extra.length) data.message = extra.join('\n') + (data.message ? '\n\n' + data.message : '');
     if (data.website) return;
     if (!data.name.trim() || (!data.phone.trim() && !data.email.trim())) {
       status.className = 'status err';
